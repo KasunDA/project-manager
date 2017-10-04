@@ -17,8 +17,9 @@ and open the template in the editor.
     <link rel="stylesheet" href="{{ resources }}/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ resources }}/css/admin.css" />
     <link rel="stylesheet" href="{{ resources }}/css/morris.css" />
+    <link rel="stylesheet" href="{{ resources }}/css/metisMenu.min.css" />
     <link rel="stylesheet" href="{{ resources }}/css/datatables.min.css" />
-    <link rel="stylesheet" href="{{ resources }}/css/font-icons/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="{{ resources }}/css/font-awesome.css" />
 
 
     <script src="{{ resources }}/js/jquery.min.js"></script>
@@ -26,12 +27,13 @@ and open the template in the editor.
     <script src="{{ resources }}/js/raphael.min.js"></script>
     <script src="{{ resources }}/js/morris.min.js"></script>
     <script src="{{ resources }}/js/datatables.min.js"></script>
+    <script src="{{ resources }}/js/metisMenu.min.js"></script>
+    <script src="{{ resources }}/js/admin.js"></script>
 </head>
 
 <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <div class="wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -39,40 +41,47 @@ and open the template in the editor.
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ app.urlFor('Dashboard') }}">Customer</a>
+                <a class="navbar-brand" href="{{ app.urlFor('Relationship-Dashboard') }}">Customer</a>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ app.urlFor('Relationship-Dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ app.urlFor('AccessController-Customer-logout') }}">Logout</a></li>
-                </ul>
+
+            <div id="navbar" class="navbar-default sidebar">
+                <div class="sidebar-nav navbar navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="{{ app.urlFor('Relationship-Dashboard') }}">
+                                <i class="fa fa-dashboard right-padding-5"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                              <i class="fa fa-cubes right-padding-5"></i> Projects Module
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ app.urlFor('Relationship-Projects') }}"> Projects List</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{{ app.urlFor('AccessController-Customer-logout') }}">
+                                <i class="fa fa-sign-out"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3 col-md-3">
-
-                <ul class="nav nav-sidebar">
-                    <h5 class="list-group-item list-group-item-menu">Overview</h5>
-                    <li><a href="{{ app.urlFor('Relationship-Dashboard') }}">Dashboard</a></li>
-                </ul>
-
-
-                <ul class="nav nav-sidebar">
-                    <h5 class="list-group-item list-group-item-menu">Projects Module</h5>
-                    <li><a href="{{ app.urlFor('Relationship-Projects') }}">Projects</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-9 col-md-9">
-
-                {% block content %}
-                {% endblock %}
-
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </body>
-
 </html>
