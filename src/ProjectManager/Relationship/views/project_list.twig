@@ -3,33 +3,45 @@
 
 {% block content %}
 
-    <h2>Projects</h2>
+    <h2>
+        <i class="fa fa-cubes right-padding-5"></i>
+        Projects
+    </h2>
 
-    <hr>
+    <div class="panel panel-white panel-animated">
+        <div class="panel-body">
+            <div class="panel-options">
+                <a class="btn btn-md btn-info"
+                    href="{{ app.urlFor('Relationship-Dashboard') }}"> <i
+                    class="fa fa-arrow-circle-left"></i> Back
+                </a>
+            </div>
 
-    <table class="table" id="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Customer</th>
-                <th>Starting Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for obj in list %}
-                <tr>
-                    <td>
-                        <a href="{{ app.urlFor('Relationship-Products',{projectId:obj.getId()}) }}">
-                            {{ obj.getName() }}
-                        </a>
-                    </td>
-                    <td>{{ obj.getCustomer().getName() }}</td>
-                    <td>{{ obj.getStartingDate().format('m/d/Y') }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
+            <table class="table" id="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Customer</th>
+                        <th>Starting Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for obj in list %}
+                        <tr>
+                            <td>
+                                <a href="{{ app.urlFor('Relationship-Products',{projectId:obj.getId()}) }}">
+                                    {{ obj.getName() }}
+                                </a>
+                            </td>
+                            <td>{{ obj.getCustomer().getName() }}</td>
+                            <td>{{ obj.getStartingDate().format('m/d/Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <script type="text/javascript">
         jQuery( document ).ready( function( $ ) {

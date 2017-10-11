@@ -2,10 +2,126 @@
 
 {% block content %}
 
-    <h2>Dashboard</h2>
+    <h2>
+        <i class="fa fa-dashboard right-padding-5"></i>
+        Dashboard
+    </h2>
 
-    <hr>
+    <div class="row">
+        <div class="col-xs-6 col-sm-3">
+            <div class="tile">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x circle-blue"></i>
+                  <i class="fa fa-info fa-stack-1x"></i>
+                </span>
+                <div class="tile-text">
+                    <div class="tile-number">{{ status.total_projects }}</div>
+                    Projects
+                </div>
+            </div>
+        </div>
 
-    <p>Welcome to your Dashboard.</p>
+        <div class="col-xs-6 col-sm-3">
+            <div class="tile">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x circle-gold"></i>
+                  <i class="fa fa-cubes fa-stack-1x"></i>
+                </span>
+                <div class="tile-text">
+                    <div class="tile-number">{{ status.total_products }}</div>
+                    Products
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            <div class="tile">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x circle-green"></i>
+                  <i class="fa fa-line-chart fa-stack-1x"></i>
+                </span>
+                <div class="tile-text">
+                    <div class="tile-number">${{ status.paid_total|number_format(2, '.', ',') }}</div>
+                    Paid Products
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            <div class="tile">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x circle-red"></i>
+                  <i class="fa fa-exclamation fa-stack-1x"></i>
+                </span>
+                <div class="tile-text">
+                    <div class="tile-number">${{ status.pending_total|number_format(2, '.', ',') }}</div>
+                    Payment Pending
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="panel panel-white panel-animated">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Projects With Payment Pending</h3>
+                </div>
+
+                <div class="panel-body">
+                    <table class="table" id="tablePending">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Project</th>
+                                <th>Customer</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for obj in products %}
+                                {% if not obj.getPaid() %}
+                                <tr>
+                                    <td>{{ obj.getName() }}</td>
+                                    <td><a
+                                        href="{{ app.urlFor('Projects-Products-List',{projectId:obj.getProject().getId()}) }}">
+                                            {{ obj.getProject().getName() }} </a></td>
+                                    <td><a
+                                        href="{{ app.urlFor('Customers-Customer-Edit',{id:obj.getProject().getCustomer().getId()}) }}">
+                                            {{ obj.getProject().getCustomer().getName() }} </a></td>
+                                    <td>$ {{ obj.getValue()|number_format(2, '.', ',') }}</td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+
+
+            <script type="text/javascript">
+            jQuery( document ).ready( function( $ ) {
+                var tablePending = jQuery( "#tablePending" );
+                tablePending.DataTable( {
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', {
+                            extend: 'pdfHtml5',
+                            title: 'Payment Pending',
+                            text: 'PDF'
+                        }
+                    ]
+                } );
+            } );
+        </script>
+
+        </div>
+    </div>
 
 {% endblock %}
