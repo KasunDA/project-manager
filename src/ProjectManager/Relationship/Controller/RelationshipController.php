@@ -2,6 +2,7 @@
 
 namespace ProjectManager\Relationship\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use ProjectManager\Customers\Model\Customer;
 use ProjectManager\Projects\Model\Product;
 use ProjectManager\Projects\Model\Project;
@@ -57,7 +58,52 @@ class RelationshipController extends SecuredController
 
     public function dashboard()
     {
-        $this->render('@Relationship/dashboard.twig',$this->data);
+        $customer = $this->getLoggedCustomer();
+        $projects = $customer->getProjects();
+        $products = array();
+
+        // Merging Products of all Projects
+        foreach ($projects as $project) {
+            $arrayProducts = $project->getProducts();
+
+            if ($arrayProducts->count() == 0) {
+                continue;
+            }
+
+            $products = array_merge(
+                $products,
+                $arrayProducts->toArray()
+            );
+        }
+
+        $products = new ArrayCollection($products);
+
+        $total_projects = $projects->count();
+        $total_products = $products->count();
+        $pending_total  = 0;
+        $paid_total     = 0;
+
+        foreach ($products as $product) {
+            if ($product->getPaid()) {
+                $paid_total += $product->getValue();
+            } else {
+                $pending_total += $product->getValue();
+            }
+        }
+
+        $status = compact(
+            'total_products',
+            'total_projects',
+            'pending_total',
+            'paid_total'
+        );
+
+        $this->data = compact('products', 'projects', 'status');
+
+        $this->render(
+            '@Relationship/dashboard.twig',
+            $this->data
+        );
     }
 
     public function listProjects()
